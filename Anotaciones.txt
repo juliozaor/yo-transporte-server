@@ -1,0 +1,15 @@
+https://sequelize.org/master/manual/assocs.html
+
+ventana1:  tsc -w
+ventana2: nodemon dist/
+
+solucion al bcrypt 
+npm install bcrypt --save
+
+
+correccion de jsonwebtoken video 201 creacion de JsonWebToken
+npm install jsonwebtoken --save
+
+
+se requiere guardar primero las imagenes una por una y con el nombre que deben tener 
+en la base de datos

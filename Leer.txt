@@ -1,0 +1,3 @@
+El backend esta contenido en la carpeta 'dist'
+destro de la carpeta /dist/models esta un archivo index, 
+que es el que contiene la conficuracion de la base de datos
