@@ -4,7 +4,7 @@ import express from 'express';
 export default class Server {
 
     public app : express.Application;
-    public port: number = 3001;
+    public port =  process.env.PORT || 3001;
 
     constructor() {
         this.app = express();
