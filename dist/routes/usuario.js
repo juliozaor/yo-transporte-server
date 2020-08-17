@@ -535,4 +535,60 @@ userRoutes.post('/terminar-oferta/:id', autenticacion_1.verificaToken, function 
         throw err;
     });
 });
+//Guardar calificacion 
+userRoutes.post('/calificar', [autenticacion_1.verificaToken], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var body;
+    return __generator(this, function (_a) {
+        body = req.body;
+        // body.idConductor = req.usuario.idUsuario;
+        modelos.CalificacionPasajero.create(body).then(function (pasajeroDB) {
+            res.json({
+                ok: true,
+                pasajero: pasajeroDB
+            });
+        }).catch(function (err) {
+            res.json(err);
+        });
+        return [2 /*return*/];
+    });
+}); });
+//Ver calificacion
+userRoutes.get('/ver-calificacion/:codPasajero', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var codPasajero, c, p, a, puntualidad, atencion;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                codPasajero = req.params.codPasajero;
+                return [4 /*yield*/, modelos.CalificacionPasajero.count({
+                        where: {
+                            codPasajero: codPasajero
+                        }
+                    })];
+            case 1:
+                c = _a.sent();
+                return [4 /*yield*/, modelos.CalificacionPasajero.sum('puntualidad', {
+                        where: {
+                            codPasajero: codPasajero
+                        }
+                    })];
+            case 2:
+                p = _a.sent();
+                return [4 /*yield*/, modelos.CalificacionPasajero.sum('atencion', {
+                        where: {
+                            codPasajero: codPasajero
+                        }
+                    })];
+            case 3:
+                a = _a.sent();
+                puntualidad = Math.round(p / c) || 0;
+                atencion = Math.round(a / c) || 0;
+                res.json({
+                    ok: true,
+                    puntualidad: puntualidad,
+                    atencion: atencion
+                });
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = userRoutes;

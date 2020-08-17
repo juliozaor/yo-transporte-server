@@ -7,7 +7,7 @@ const path = require('path');
 
 // Conectar DB
 
-const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
+/* const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
   host: 'us-cdbr-east-02.cleardb.com',
   dialect: 'mysql',
 
@@ -17,9 +17,9 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
     idle: 10000
   }
 
-});
+}); */
 
-/* const connection = new Sequelize('db_yo_transporte', 'julio', '123456', {
+const connection = new Sequelize('db_yo_transporte', 'julio', '123456', {
     host: 'localhost',
     dialect: 'mysql',
 
@@ -29,7 +29,7 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
       idle: 10000
     }
   
-  }); */
+  });
   /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {
     host: 'localhost',
     dialect: 'mysql',
@@ -70,6 +70,9 @@ const OfertaPasajeros = connection.import(path.join(__dirname,'oferta-pasajero.m
 const TipoServicioPasajeros = connection.import(path.join(__dirname,'tipo-servicio-pasajero.model'));
 const ConductorOfertaPasajero = connection.import(path.join(__dirname,'conductor-oferta-pasajero.model')); 
 const ChatConductoresPasajero = connection.import(path.join(__dirname,'chat-conductor-pasajero.model'));
+
+const CalificacionConductor = connection.import(path.join(__dirname,'calificacion-conductor-model'));
+const CalificacionPasajero = connection.import(path.join(__dirname,'calificacion-pasajero-model'));
 
 
 //Relaciones entre tablas
@@ -127,6 +130,13 @@ ConductorOfertaPasajero.hasMany(ChatConductoresPasajero, { foreignKey: 'codCondu
 ChatConductoresPasajero.belongsTo(ConductorOfertaPasajero, { foreignKey: 'codConductorOfertaPasajero' });
 
 
+Conductores.hasMany(CalificacionConductor, { foreignKey: 'codConductor' });
+CalificacionConductor.belongsTo(Conductores, { foreignKey: 'codConductor' });
+
+Pasajeros.hasMany(CalificacionPasajero, { foreignKey: 'codPasajero' });
+CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
+
+
 const modificar: boolean = false;
 
 // Crear tablas pendientes:
@@ -165,6 +175,7 @@ exports.Vehiculos = Vehiculos;
 exports.Pasajeros = Pasajeros;
 exports.Propietarios = Propietarios;
 exports.ConductorVehiculos = ConductorVehiculos;
+
 exports.OfertaConductores = OfertaConductores;
 exports.PasajeroOfertaConductores = PasajeroOfertaConductores;
 exports.ChatPasajeroConductores = ChatPasajeroConductores;
@@ -172,5 +183,9 @@ exports.ChatPasajeroConductores = ChatPasajeroConductores;
 exports.OfertaPasajeros = OfertaPasajeros;
 exports.ConductorOfertaPasajero = ConductorOfertaPasajero;
 exports.ChatConductoresPasajero = ChatConductoresPasajero;
+
+
+exports.CalificacionConductor = CalificacionConductor;
+exports.CalificacionPasajero = CalificacionPasajero;
 //exports.conductores_vehiculos = conductores_vehiculos;
 //module.exports = conductores_vehiculos;

@@ -824,6 +824,85 @@ conductorRoutes.get('/buscarOfertasAceptadas/:codConductor', async (req: Request
     });
 
 
+    //Guardar calificacion 
+
+    conductorRoutes.post('/calificar', [verificaToken], async(req: any, res: Response) => {
+
+        const body = req.body;
+       // body.idConductor = req.usuario.idUsuario;
+    
+        modelos.CalificacionConductor.create( body ).then( conductorDB => {
+       
+       
+            res.json({
+                ok: true,
+                conductor: conductorDB
+    
+            });
+          
+    
+        }).catch( err => {
+            res.json(err);
+        });  
+        
+    
+    });
+
+
+    //Ver calificacion
+    conductorRoutes.get('/ver-calificacion/:codConductor', async (req: Request, res: Response ) => {
+
+        //const body = req.body;
+        const codConductor = req.params.codConductor;
+       // console.log(codTipoServicio);
+    
+       const c = await modelos.CalificacionConductor.count({
+        where: {
+            codConductor: codConductor
+        }
+      });
+
+      const p = await modelos.CalificacionConductor.sum('puntualidad',
+      {
+        where: {
+            codConductor: codConductor
+        }
+      });
+
+      const a = await modelos.CalificacionConductor.sum('atencion',
+      {
+        where: {
+            codConductor: codConductor
+        }
+      });
+
+      const v = await modelos.CalificacionConductor.sum('vehiculo',
+      {
+        where: {
+            codConductor: codConductor
+        }
+      });
+
+
+
+      const puntualidad = Math.round(p/c) || 0;
+      const atencion = Math.round(a/c) || 0;
+      const vehiculo = Math.round(v/c) || 0;
+    
+
+      res.json({
+        ok: true,
+        puntualidad: puntualidad,
+        atencion: atencion,
+        vehiculo: vehiculo
+
+    });
+        
+    
+             
+    });
+
+
 
 
 

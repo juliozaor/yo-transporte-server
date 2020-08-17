@@ -671,4 +671,69 @@ conductorRoutes.get('/buscar-cop', [autenticacion_1.verificaToken], function (re
         return [2 /*return*/];
     });
 }); });
+//Guardar calificacion 
+conductorRoutes.post('/calificar', [autenticacion_1.verificaToken], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var body;
+    return __generator(this, function (_a) {
+        body = req.body;
+        // body.idConductor = req.usuario.idUsuario;
+        modelos.CalificacionConductor.create(body).then(function (conductorDB) {
+            res.json({
+                ok: true,
+                conductor: conductorDB
+            });
+        }).catch(function (err) {
+            res.json(err);
+        });
+        return [2 /*return*/];
+    });
+}); });
+//Ver calificacion
+conductorRoutes.get('/ver-calificacion/:codConductor', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var codConductor, c, p, a, v, puntualidad, atencion, vehiculo;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                codConductor = req.params.codConductor;
+                return [4 /*yield*/, modelos.CalificacionConductor.count({
+                        where: {
+                            codConductor: codConductor
+                        }
+                    })];
+            case 1:
+                c = _a.sent();
+                return [4 /*yield*/, modelos.CalificacionConductor.sum('puntualidad', {
+                        where: {
+                            codConductor: codConductor
+                        }
+                    })];
+            case 2:
+                p = _a.sent();
+                return [4 /*yield*/, modelos.CalificacionConductor.sum('atencion', {
+                        where: {
+                            codConductor: codConductor
+                        }
+                    })];
+            case 3:
+                a = _a.sent();
+                return [4 /*yield*/, modelos.CalificacionConductor.sum('vehiculo', {
+                        where: {
+                            codConductor: codConductor
+                        }
+                    })];
+            case 4:
+                v = _a.sent();
+                puntualidad = Math.round(p / c) || 0;
+                atencion = Math.round(a / c) || 0;
+                vehiculo = Math.round(v / c) || 0;
+                res.json({
+                    ok: true,
+                    puntualidad: puntualidad,
+                    atencion: atencion,
+                    vehiculo: vehiculo
+                });
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = conductorRoutes;

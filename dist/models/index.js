@@ -4,8 +4,19 @@ var sequelize_1 = require("sequelize");
 var sequelize = new sequelize_1.Sequelize('mysql::memory:');
 var path = require('path');
 // Conectar DB
-var connection = new sequelize_1.Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
-    host: 'us-cdbr-east-02.cleardb.com',
+/* const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
+  host: 'us-cdbr-east-02.cleardb.com',
+  dialect: 'mysql',
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
+
+}); */
+var connection = new sequelize_1.Sequelize('db_yo_transporte', 'julio', '123456', {
+    host: 'localhost',
     dialect: 'mysql',
     pool: {
         max: 5,
@@ -13,17 +24,6 @@ var connection = new sequelize_1.Sequelize('heroku_9bc16b20cb2808f', 'b658891ac5
         idle: 10000
     }
 });
-/* const connection = new Sequelize('db_yo_transporte', 'julio', '123456', {
-    host: 'localhost',
-    dialect: 'mysql',
-
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    }
-  
-  }); */
 /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {
   host: 'localhost',
   dialect: 'mysql',
@@ -58,6 +58,8 @@ var OfertaPasajeros = connection.import(path.join(__dirname, 'oferta-pasajero.mo
 var TipoServicioPasajeros = connection.import(path.join(__dirname, 'tipo-servicio-pasajero.model'));
 var ConductorOfertaPasajero = connection.import(path.join(__dirname, 'conductor-oferta-pasajero.model'));
 var ChatConductoresPasajero = connection.import(path.join(__dirname, 'chat-conductor-pasajero.model'));
+var CalificacionConductor = connection.import(path.join(__dirname, 'calificacion-conductor-model'));
+var CalificacionPasajero = connection.import(path.join(__dirname, 'calificacion-pasajero-model'));
 //Relaciones entre tablas
 Usuarios.hasOne(Pasajeros, { foreignKey: 'idPasajero' });
 Pasajeros.belongsTo(Usuarios, { foreignKey: 'idPasajero' });
@@ -93,6 +95,10 @@ Conductores.hasMany(ConductorOfertaPasajero, { foreignKey: 'codConductor' });
 ConductorOfertaPasajero.belongsTo(Conductores, { foreignKey: 'codConductor' });
 ConductorOfertaPasajero.hasMany(ChatConductoresPasajero, { foreignKey: 'codConductorOfertaPasajero' });
 ChatConductoresPasajero.belongsTo(ConductorOfertaPasajero, { foreignKey: 'codConductorOfertaPasajero' });
+Conductores.hasMany(CalificacionConductor, { foreignKey: 'codConductor' });
+CalificacionConductor.belongsTo(Conductores, { foreignKey: 'codConductor' });
+Pasajeros.hasMany(CalificacionPasajero, { foreignKey: 'codPasajero' });
+CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
 var modificar = false;
 // Crear tablas pendientes:
 connection.sync({ force: modificar }) //  Si esta true, borra las tablas si estan creadas
@@ -128,5 +134,7 @@ exports.ChatPasajeroConductores = ChatPasajeroConductores;
 exports.OfertaPasajeros = OfertaPasajeros;
 exports.ConductorOfertaPasajero = ConductorOfertaPasajero;
 exports.ChatConductoresPasajero = ChatConductoresPasajero;
+exports.CalificacionConductor = CalificacionConductor;
+exports.CalificacionPasajero = CalificacionPasajero;
 //exports.conductores_vehiculos = conductores_vehiculos;
 //module.exports = conductores_vehiculos;

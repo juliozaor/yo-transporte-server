@@ -652,6 +652,76 @@ throw err;
 });   
 
 });
+
+
+ //Guardar calificacion 
+
+ userRoutes.post('/calificar', [verificaToken], async(req: any, res: Response) => {
+
+    const body = req.body;
+   // body.idConductor = req.usuario.idUsuario;
+
+    modelos.CalificacionPasajero.create( body ).then( pasajeroDB => {
+   
+   
+        res.json({
+            ok: true,
+            pasajero: pasajeroDB
+
+        });
+      
+
+    }).catch( err => {
+        res.json(err);
+    });  
+    
+
+});
+
+
+//Ver calificacion
+userRoutes.get('/ver-calificacion/:codPasajero', async (req: Request, res: Response ) => {
+
+    //const body = req.body;
+    const codPasajero = req.params.codPasajero;
+
+   // console.log(codTipoServicio);
+
+   const c = await modelos.CalificacionPasajero.count({
+    where: {
+        codPasajero: codPasajero
+    }
+  });
+
+  const p = await modelos.CalificacionPasajero.sum('puntualidad',
+  {
+    where: {
+        codPasajero: codPasajero
+    }
+  });
+
+  const a = await modelos.CalificacionPasajero.sum('atencion',
+  {
+    where: {
+        codPasajero: codPasajero
+    }
+  });
+
+
+  const puntualidad = Math.round(p/c) || 0;
+  const atencion = Math.round(a/c) || 0;
+
+
+  res.json({
+    ok: true,
+    puntualidad: puntualidad,
+    atencion: atencion
+
+});
+    
+
+         
+});
     
 
  
