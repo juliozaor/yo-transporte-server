@@ -137,7 +137,7 @@ Pasajeros.hasMany(CalificacionPasajero, { foreignKey: 'codPasajero' });
 CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
 
 
-const modificar: boolean = true;
+const modificar: boolean = false;
 
 // Crear tablas pendientes:
 connection.sync({force:modificar}) //  Si esta true, borra las tablas si estan creadas
