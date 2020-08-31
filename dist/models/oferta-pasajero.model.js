@@ -50,9 +50,13 @@ module.exports = function (sequelize, DataTypes) {
         horaFinal: {
             type: DataTypes.TIME
         },
+        maleta: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
         terminada: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
-    } /* , { timestamps: false } */);
+    } /* , { timestamps: false }  */);
 };

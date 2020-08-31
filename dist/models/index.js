@@ -15,7 +15,7 @@ var path = require('path');
   }
 
 }); */
-var connection = new sequelize_1.Sequelize('db_yo_transporte', 'julio', '123456', {
+var connection = new sequelize_1.Sequelize('db_yo_transporte', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
     pool: {

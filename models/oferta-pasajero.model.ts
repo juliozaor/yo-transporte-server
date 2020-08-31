@@ -49,6 +49,10 @@ const sequelize = new Sequelize('mysql::memory:');
     horaFinal: {
         type: DataTypes.TIME
     },
+    maleta: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false        
+    },
     terminada: {
         type: DataTypes.BOOLEAN,
         defaultValue: false        
@@ -57,7 +61,7 @@ const sequelize = new Sequelize('mysql::memory:');
      
     
       
-  }/* , { timestamps: false } */);
+  }/* , { timestamps: false }  */);
 };
 
 

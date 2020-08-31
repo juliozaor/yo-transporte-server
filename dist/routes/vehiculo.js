@@ -130,6 +130,7 @@ vehiculoRoutes.post('/upload/:nombre', [autenticacion_1.verificaToken], function
                 file = req.files.imagen;
                 //const file: FileUpload[] = [req.files.foto1Licencia, req.files.foto2Licencia];
                 //const nombres: string[] = ["foto1Licencia","foto2Licencia"]
+                console.log(req.files.imagen);
                 if (!file) {
                     return [2 /*return*/, res.status(400).json({
                             ok: false,
