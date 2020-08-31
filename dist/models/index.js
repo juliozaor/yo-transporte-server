@@ -99,7 +99,7 @@ Conductores.hasMany(CalificacionConductor, { foreignKey: 'codConductor' });
 CalificacionConductor.belongsTo(Conductores, { foreignKey: 'codConductor' });
 Pasajeros.hasMany(CalificacionPasajero, { foreignKey: 'codPasajero' });
 CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
-var modificar = true;
+var modificar = false;
 // Crear tablas pendientes:
 connection.sync({ force: modificar }) //  Si esta true, borra las tablas si estan creadas
     .then(function (err) {
