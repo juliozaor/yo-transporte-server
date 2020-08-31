@@ -7,7 +7,7 @@ const path = require('path');
 
 // Conectar DB
 
-/* const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
+const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
   host: 'us-cdbr-east-02.cleardb.com',
   dialect: 'mysql',
 
@@ -17,9 +17,9 @@ const path = require('path');
     idle: 10000
   }
 
-}); */
+});
 
-const connection = new Sequelize('db_yo_transporte', 'root', '', {
+/* const connection = new Sequelize('db_yo_transporte', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
 
@@ -29,7 +29,7 @@ const connection = new Sequelize('db_yo_transporte', 'root', '', {
       idle: 10000
     }
   
-  });
+  }); */
 
   
   /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {

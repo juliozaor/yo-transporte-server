@@ -44,6 +44,9 @@ server.app.use('/notificacion', notificacionesRoutes);
 //server.app.use('/conductor-vehiculo', conductorVehiculoRoutes);
 //server.app.use('/oferta-conductor', ofertaConductorRoutes);
 
+server.app.get('/',(req, res) => {
+    res.send('Bienvenido');
+});
 
 
 

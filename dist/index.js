@@ -33,6 +33,9 @@ server.app.use('/chat', chat_1.default);
 server.app.use('/notificacion', notificaciones_1.default);
 //server.app.use('/conductor-vehiculo', conductorVehiculoRoutes);
 //server.app.use('/oferta-conductor', ofertaConductorRoutes);
+server.app.get('/', function (req, res) {
+    res.send('Bienvenido');
+});
 // Levantar express
 server.start(function () {
     console.log("Servidor corriendo en puerto " + server.port);
