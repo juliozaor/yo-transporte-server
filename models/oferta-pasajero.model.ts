@@ -37,7 +37,13 @@ const sequelize = new Sequelize('mysql::memory:');
     peso_kilos: {
         type: DataTypes.STRING        
     },
+    peso: {
+        type: DataTypes.STRING        
+    },
     origen: {
+        type: DataTypes.STRING        
+    },
+    pasajeros: {
         type: DataTypes.STRING        
     },
     fecha: {

@@ -142,7 +142,7 @@ CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
 const modificar: boolean = false;
 
 // Crear tablas pendientes:
-connection.sync({force:modificar}) //  Si esta true, borra las tablas si estan creadas
+connection.sync({force:modificar}) //  Si esta true, borra las tablas si estan creada
 .then(function(err) {
     console.log('Tablas y modelos creados correctamente');
     if(modificar){
