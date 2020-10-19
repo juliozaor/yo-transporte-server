@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node dist/index.js",
+        "start": "node dist/index.js --ignore 'dist/*.json'",
         "generate-vapid": "node_modules/web-push/src/cli.js generate-vapid-keys"
     },
     "author": "",
