@@ -4,20 +4,8 @@ var sequelize_1 = require("sequelize");
 var sequelize = new sequelize_1.Sequelize('mysql::memory:');
 var path = require('path');
 // Conectar DB
-/*
-const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
-  host: 'us-cdbr-east-02.cleardb.com',
-  dialect: 'mysql',
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-
-});*/
-var connection = new sequelize_1.Sequelize('db_yo_transporte1', 'root', '', {
-    host: 'localhost',
+var connection = new sequelize_1.Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
+    host: 'us-cdbr-east-02.cleardb.com',
     dialect: 'mysql',
     pool: {
         max: 5,
@@ -25,6 +13,18 @@ var connection = new sequelize_1.Sequelize('db_yo_transporte1', 'root', '', {
         idle: 10000
     }
 });
+/* const connection = new Sequelize('db_yo_transporte1', 'root', '', {
+    host: 'localhost',
+    dialect: 'mysql',
+
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
+    }
+  
+  });
+ */
 /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {
   host: 'localhost',
   dialect: 'mysql',
@@ -103,7 +103,7 @@ Pasajeros.hasMany(CalificacionPasajero, { foreignKey: 'codPasajero' });
 CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
 Ciudades.hasOne(Usuarios, { foreignKey: 'codCiudad' });
 Usuarios.belongsTo(Ciudades, { foreignKey: 'codCiudad' });
-var modificar = true;
+var modificar = false;
 // Crear tablas pendientes:
 connection.sync({ force: modificar }) // Si esta true, borra las tablas si estan creada
     .then(function (err) {
