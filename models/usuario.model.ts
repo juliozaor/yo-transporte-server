@@ -67,6 +67,9 @@ const sequelize = new Sequelize('mysql::memory:');
     },
     idSignal: {
         type: DataTypes.UUID
+    },
+    ubicacion: {
+        type: DataTypes.STRING   
     }
       
   });

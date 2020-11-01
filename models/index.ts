@@ -6,7 +6,7 @@ const path = require('path');
 
 
 // Conectar DB
-
+/*
 const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e0288d8', {
   host: 'us-cdbr-east-02.cleardb.com',
   dialect: 'mysql',
@@ -17,9 +17,9 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
     idle: 10000
   }
 
-});
+});*/
 
-/* const connection = new Sequelize('db_yo_transporte', 'root', '', {
+const connection = new Sequelize('db_yo_transporte1', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
 
@@ -29,7 +29,7 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
       idle: 10000
     }
   
-  }); */
+  });
 
   
   /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {
@@ -56,6 +56,8 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
 
 // Importar modelos.
 
+const Ciudades = connection.import(path.join(__dirname,'ciudades.model'));
+
 const Usuarios = connection.import(path.join(__dirname,'usuario.model'));
 const Pasajeros = connection.import(path.join(__dirname,'pasajero.model'));
 const Conductores = connection.import(path.join(__dirname,'conductor.model'));
@@ -75,6 +77,8 @@ const ChatConductoresPasajero = connection.import(path.join(__dirname,'chat-cond
 
 const CalificacionConductor = connection.import(path.join(__dirname,'calificacion-conductor-model'));
 const CalificacionPasajero = connection.import(path.join(__dirname,'calificacion-pasajero-model'));
+
+
 
 
 //Relaciones entre tablas
@@ -138,11 +142,14 @@ CalificacionConductor.belongsTo(Conductores, { foreignKey: 'codConductor' });
 Pasajeros.hasMany(CalificacionPasajero, { foreignKey: 'codPasajero' });
 CalificacionPasajero.belongsTo(Pasajeros, { foreignKey: 'codPasajero' });
 
+Ciudades.hasOne(Usuarios, { foreignKey: 'codCiudad'});
+Usuarios.belongsTo(Ciudades, { foreignKey: 'codCiudad'});
 
-const modificar: boolean = false;
+
+const modificar: boolean = true;
 
 // Crear tablas pendientes:
-connection.sync({force:modificar}) //  Si esta true, borra las tablas si estan creada
+connection.sync({force:modificar}) // Si esta true, borra las tablas si estan creada
 .then(function(err) {
     console.log('Tablas y modelos creados correctamente');
     if(modificar){
@@ -160,6 +167,9 @@ connection.sync({force:modificar}) //  Si esta true, borra las tablas si estan c
       TipoServicioPasajeros.create({ idTipoServicio: "2", nombre: "Interurbano" });
       TipoServicioPasajeros.create({ idTipoServicio: "3", nombre: "Envio" });
       TipoServicioPasajeros.create({ idTipoServicio: "4", nombre: "Mercancia" });
+
+
+      
     }
     
   }, function (err) {
@@ -189,5 +199,7 @@ exports.ChatConductoresPasajero = ChatConductoresPasajero;
 
 exports.CalificacionConductor = CalificacionConductor;
 exports.CalificacionPasajero = CalificacionPasajero;
+
+exports.Ciudades = Ciudades;
 //exports.conductores_vehiculos = conductores_vehiculos;
 //module.exports = conductores_vehiculos;

@@ -98,7 +98,8 @@ userRoutes.post('/create', function (req, res) {
         email: req.body.email,
         password: bcrypt_1.default.hashSync(req.body.password, 10),
         foto: req.body.foto,
-        idSignal: req.body.idSignal
+        idSignal: req.body.idSignal,
+        codCiudad: req.body.codCiudad
     };
     // Crear el usuario
     modelos.Usuarios.create(user).then(function (userDB) {
@@ -116,7 +117,8 @@ userRoutes.post('/create', function (req, res) {
                 email: userDB.email,
                 telefono: userDB.telefono,
                 foto: userDB.foto,
-                idSignal: req.body.idSignal
+                idSignal: req.body.idSignal,
+                codCiudad: req.body.codCiudad
             });
             res.json({
                 ok: true,
@@ -135,9 +137,13 @@ userRoutes.post('/create', function (req, res) {
 userRoutes.post('/update', autenticacion_1.verificaToken, function (req, res) {
     var user = {
         nombre: req.body.nombre,
-        email: req.body.email,
+        cedula: req.body.cedula,
         telefono: req.body.telefono,
-        avatar: req.body.avatar
+        email: req.body.email,
+        password: bcrypt_1.default.hashSync(req.body.password, 10),
+        foto: req.body.foto,
+        idSignal: req.body.idSignal,
+        codCiudad: req.body.codCiudad
     };
     console.log("El usuario que viene : ", user.nombre, " ", user.email);
     modelos.Usuarios.update(user, { where: { id: req.usuario.idUsuario } }, { new: true }).then(function (userDB) {
@@ -156,7 +162,9 @@ userRoutes.post('/update', autenticacion_1.verificaToken, function (req, res) {
                 cedula: userDB.cedula,
                 email: userDB.email,
                 telefono: userDB.telefono,
-                foto: userDB.foto
+                foto: userDB.foto,
+                idSignal: req.body.idSignal,
+                codCiudad: req.body.codCiudad
             });
             res.json({
                 ok: true,
@@ -589,6 +597,32 @@ userRoutes.get('/ver-calificacion/:codPasajero', function (req, res) { return __
                 });
                 return [2 /*return*/];
         }
+    });
+}); });
+// Buscar las ofertas que el usuario ha aceptado
+userRoutes.get('/listar-ciudades', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        modelos.Ciudades.findAll({
+            order: sequelize.literal('createdAt ASC')
+        }).then(function (ciudadDB) {
+            if (!ciudadDB) {
+                return res.json({
+                    ok: false,
+                    mensaje: 'no se encontraron ciudades'
+                });
+            }
+            else {
+                return res.json({
+                    ok: true,
+                    ciudades: ciudadDB
+                });
+            }
+        })
+            .catch(function (err) {
+            console.log(err);
+            throw err;
+        });
+        return [2 /*return*/];
     });
 }); });
 exports.default = userRoutes;

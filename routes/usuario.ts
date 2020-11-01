@@ -71,7 +71,8 @@ userRoutes.post('/create', (req: Request, res: Response) =>{
         email: req.body.email,
         password: bcrypt.hashSync( req.body.password, 10),        
         foto: req.body.foto,
-        idSignal: req.body.idSignal
+        idSignal: req.body.idSignal,
+        codCiudad: req.body.codCiudad
     }  
 
     
@@ -95,7 +96,8 @@ userRoutes.post('/create', (req: Request, res: Response) =>{
             email: userDB.email,
             telefono: userDB.telefono,
             foto: userDB.foto,
-            idSignal: req.body.idSignal
+            idSignal: req.body.idSignal,
+            codCiudad: req.body.codCiudad
 
         });
     
@@ -127,10 +129,14 @@ userRoutes.post('/create', (req: Request, res: Response) =>{
 userRoutes.post('/update', verificaToken, (req: any, res: Response) => {
 
     const user = {
-        nombre: req.body.nombre,
-        email: req.body.email,
+        nombre: req.body.nombre,        
+        cedula: req.body.cedula,
         telefono: req.body.telefono,
-        avatar: req.body.avatar
+        email: req.body.email,
+        password: bcrypt.hashSync( req.body.password, 10),        
+        foto: req.body.foto,
+        idSignal: req.body.idSignal,
+        codCiudad: req.body.codCiudad
     }
 
     console.log("El usuario que viene : ", user.nombre, " ", user.email);
@@ -154,7 +160,9 @@ userRoutes.post('/update', verificaToken, (req: any, res: Response) => {
                 cedula: userDB.cedula,
                 email: userDB.email,
                 telefono: userDB.telefono,
-                foto: userDB.foto
+                foto: userDB.foto,
+                idSignal: req.body.idSignal,
+                codCiudad: req.body.codCiudad
             });
             res.json({
             ok: true,
@@ -722,6 +730,35 @@ userRoutes.get('/ver-calificacion/:codPasajero', async (req: Request, res: Respo
 
          
 });
+
+ // Buscar las ofertas que el usuario ha aceptado
+ userRoutes.get('/listar-ciudades', async (req: Request, res: Response ) => {
+
+       
+    modelos.Ciudades.findAll({      
+        order: sequelize.literal('createdAt ASC')
+      }).then(function(ciudadDB:any) {
+
+        if (!ciudadDB) {
+            return res.json({
+                ok: false,
+                mensaje: 'no se encontraron ciudades'
+            });
+        } else {
+                    return res.json({
+                        ok: true,
+                        ciudades: ciudadDB
+                    });
+                }
+    
+            })
+            .catch(function(err){
+            console.log(err);
+            throw err;
+            });          
+        
+    });
+
     
 
  

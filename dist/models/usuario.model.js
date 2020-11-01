@@ -67,6 +67,9 @@ module.exports = function (sequelize, DataTypes) {
         },
         idSignal: {
             type: DataTypes.UUID
+        },
+        ubicacion: {
+            type: DataTypes.STRING
         }
     });
 };
