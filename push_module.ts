@@ -32,9 +32,9 @@ module.exports.addSubscription = ( suscripcion: any ) => {
 
 }
 
-module.exports.sendPush = ( post: any, destino: any, idDestino = "" ) => {
+module.exports.sendPush = ( post: any, destino: any, idDestino = "", ciudad: any ) => {
 
-
+    let ciudadDestino: any;
     const notificacionesEnviadas: any = [];
 
     suscripciones.forEach( (suscripcion, i) => {
@@ -70,9 +70,19 @@ module.exports.sendPush = ( post: any, destino: any, idDestino = "" ) => {
             modelos.Conductores.findAll({ where: {esInterurbano: '1'}}).then(function(conductorDB:any) {
 
 
-                console.log('conductores', conductorDB);
                 conductorDB.forEach(conductor => {
-                    if( suscripcion.usuario === conductor.idConductor){
+
+                    modelos.Usuarios.findOne( {
+                        attributes: ['codCiudad' ], 
+                        where: {idUsuario: conductor.idConductor}}).then(function(usuarioDB:any) { 
+               
+                       ciudadDestino = usuarioDB.codCiudad;
+                      
+                
+
+
+
+                    if( suscripcion.usuario === conductor.idConductor && ciudadDestino == ciudad){
 
 
 
@@ -92,6 +102,12 @@ module.exports.sendPush = ( post: any, destino: any, idDestino = "" ) => {
                 
                 
                         }
+
+     
+                    });
+
+
+
                 });
                          
                   
@@ -103,9 +119,16 @@ module.exports.sendPush = ( post: any, destino: any, idDestino = "" ) => {
             modelos.Conductores.findAll({ where: {esInterurbano: '0'}}).then(function(conductorDB:any) {
 
 
-                console.log('conductores', conductorDB);
+                
+
                 conductorDB.forEach(conductor => {
-                    if( suscripcion.usuario === conductor.idConductor){
+
+                    modelos.Usuarios.findOne( {
+                        attributes: ['codCiudad' ], 
+                        where: {idUsuario: conductor.idConductor}}).then(function(usuarioDB:any) { 
+
+
+                    if( suscripcion.usuario === conductor.idConductor  && ciudadDestino == ciudad){
 
 
 
@@ -125,6 +148,11 @@ module.exports.sendPush = ( post: any, destino: any, idDestino = "" ) => {
                 
                 
                         }
+
+
+
+                    });
+
                 });
                          
                   

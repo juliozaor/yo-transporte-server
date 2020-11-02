@@ -19,6 +19,7 @@ notificacionesRoutes.get('/key', function (req, res) {
 notificacionesRoutes.post('/push', function (req, res) {
     var destino = req.body.destino;
     var idDestino = req.body.idDestino || "";
+    var ciudad = req.body.ciudad;
     var post = {
         notification: {
             title: req.body.title,
@@ -35,7 +36,7 @@ notificacionesRoutes.post('/push', function (req, res) {
             }
         }
     };
-    push.sendPush(post, destino, idDestino);
+    push.sendPush(post, destino, idDestino, ciudad);
     res.json(post);
 });
 exports.default = notificacionesRoutes;

@@ -34,6 +34,7 @@ notificacionesRoutes.post('/push', (req: any, res: Response) => {
 
   const destino = req.body.destino;
   const idDestino = req.body.idDestino || "";
+  const ciudad = req.body.ciudad;
 
   const post = {
      notification: 
@@ -56,7 +57,7 @@ notificacionesRoutes.post('/push', (req: any, res: Response) => {
     
   };
 
-  push.sendPush( post, destino, idDestino );
+  push.sendPush( post, destino, idDestino, ciudad );
   
   res.json(post);
 

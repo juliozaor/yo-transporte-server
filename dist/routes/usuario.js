@@ -599,22 +599,80 @@ userRoutes.get('/ver-calificacion/:codPasajero', function (req, res) { return __
         }
     });
 }); });
-// Buscar las ofertas que el usuario ha aceptado
-userRoutes.get('/listar-ciudades', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+userRoutes.get('/listardepartamentos', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         modelos.Ciudades.findAll({
-            order: sequelize.literal('createdAt ASC')
-        }).then(function (ciudadDB) {
-            if (!ciudadDB) {
+            attributes: ['idDepartamento', 'departamento'],
+            group: 'idDepartamento'
+        }).then(function (departamentoDB) {
+            if (!departamentoDB) {
                 return res.json({
                     ok: false,
-                    mensaje: 'no se encontraron ciudades'
+                    mensaje: 'no se encontraron ofertas'
                 });
             }
             else {
                 return res.json({
                     ok: true,
-                    ciudades: ciudadDB
+                    departamentos: departamentoDB
+                });
+            }
+        })
+            .catch(function (err) {
+            console.log(err);
+            throw err;
+        });
+        return [2 /*return*/];
+    });
+}); });
+userRoutes.get('/listarciudades/:departamento', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var departamento;
+    return __generator(this, function (_a) {
+        departamento = req.params.departamento;
+        modelos.Ciudades.findAll({
+            attributes: ['id', 'ciudad'],
+            where: {
+                idDepartamento: departamento,
+            }
+        }).then(function (ciudadesDB) {
+            if (!ciudadesDB) {
+                console.log('no entro');
+                return res.json({
+                    ok: false,
+                    mensaje: 'no se encontraron ofertas'
+                });
+            }
+            else {
+                console.log('entro');
+                //  console.log(ciudadesDB);
+                return res.json({
+                    ok: true,
+                    ciudades: ciudadesDB
+                });
+            }
+        })
+            .catch(function (err) {
+            console.log(err);
+            throw err;
+        });
+        return [2 /*return*/];
+    });
+}); });
+userRoutes.get('/ciudad/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var idCiudad;
+    return __generator(this, function (_a) {
+        idCiudad = req.params.id;
+        modelos.Ciudades.findOne({ where: { id: idCiudad } }).then(function (ciudadDB) {
+            if (!ciudadDB) {
+                return res.json({
+                    ok: false,
+                    mensaje: 'Usuario/contraseña no son correctos'
+                });
+            }
+            else {
+                return res.json({
+                    ok: true,
+                    ciudad: ciudadDB
                 });
             }
         })

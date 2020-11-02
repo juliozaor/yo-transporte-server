@@ -5,7 +5,7 @@ import { verificaToken } from '../middlewares/autenticacion';
 //import ofertaConductorRoutes from './oferta-conductor';
 
 import { OfertaConductorCompleta, UsuarioConductor, Usuario, OfertaConductor, OfertasArregloC, Conductor } from '../interfaces/interfaces';
-import  { Sequelize} from 'sequelize';
+import  { Sequelize, where} from 'sequelize';
 const sequelize = new Sequelize('mysql::memory:');
 const { Op } = require('sequelize');
 
@@ -731,33 +731,97 @@ userRoutes.get('/ver-calificacion/:codPasajero', async (req: Request, res: Respo
          
 });
 
- // Buscar las ofertas que el usuario ha aceptado
- userRoutes.get('/listar-ciudades', async (req: Request, res: Response ) => {
 
+
+ userRoutes.get('/listardepartamentos', async (req: Request, res: Response ) => {
+
+   
+        modelos.Ciudades.findAll({
+            attributes: ['idDepartamento', 'departamento' ],
+            group: 'idDepartamento'
+          }).then(function(departamentoDB:any) {
+    
+            if (!departamentoDB) {
+                return res.json({
+                    ok: false,
+                    mensaje: 'no se encontraron ofertas'
+                });
+            } else {
+                        return res.json({
+                            ok: true,
+                            departamentos: departamentoDB
+                        });
+                    }
+        
+                })
+                .catch(function(err){
+                console.log(err);
+                throw err;
+                });    
+    
        
-    modelos.Ciudades.findAll({      
-        order: sequelize.literal('createdAt ASC')
-      }).then(function(ciudadDB:any) {
+        
+    });
 
-        if (!ciudadDB) {
-            return res.json({
-                ok: false,
-                mensaje: 'no se encontraron ciudades'
-            });
-        } else {
+    userRoutes.get('/listarciudades/:departamento', async (req: Request, res: Response ) => {
+    
+        const departamento = req.params.departamento;
+   
+        modelos.Ciudades.findAll({
+            attributes: ['id', 'ciudad' ],
+            where: {
+                idDepartamento: departamento,
+            }
+          }).then(function(ciudadesDB:any) {
+    
+            if (!ciudadesDB) {
+                console.log('no entro');
+                return res.json({
+                    ok: false,
+                    mensaje: 'no se encontraron ofertas'
+                });
+            } else {
+                console.log('entro');
+              //  console.log(ciudadesDB);
+                        return res.json({
+                            ok: true,
+                            ciudades: ciudadesDB
+                        });
+                    }
+        
+                })
+                .catch(function(err){
+                console.log(err);
+                throw err;
+                });    
+    
+       
+        
+    });
+
+    userRoutes.get('/ciudad/:id', async (req: Request, res: Response ) => {
+    
+        const idCiudad = req.params.id;
+
+            modelos.Ciudades.findOne({ where: {id: idCiudad}}).then(function(ciudadDB:any) {
+                if (!ciudadDB) {
+                    return res.json({
+                        ok: false,
+                        mensaje: 'Usuario/contraseña no son correctos'
+                    });
+                } else {
                     return res.json({
                         ok: true,
-                        ciudades: ciudadDB
+                        ciudad: ciudadDB
                     });
                 }
-    
+        
             })
             .catch(function(err){
             console.log(err);
             throw err;
             });          
-        
-    });
+        });
 
     
 
