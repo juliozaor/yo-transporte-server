@@ -36,7 +36,8 @@ userRoutes.post('/login', (req: Request, res: Response ) => {
                             cedula: userDB.cedula,
                             email: userDB.email,
                             telefono: userDB.telefono,
-                            foto: userDB.foto
+                            foto: userDB.foto,
+                            codCiudad: userDB.codCiudad
                         });
                         res.json({
                         ok: true,
@@ -47,7 +48,7 @@ userRoutes.post('/login', (req: Request, res: Response ) => {
                         console.log('Login incorrecto');
                         return res.json({
                         ok: false,
-                        mensaje: 'Usuario/contraseña no son correctos ***'
+                        mensaje: 'Usuario/contraseña no son correctos ****'
                     });
                     }
                 }
