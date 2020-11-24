@@ -146,8 +146,8 @@ userRoutes.post('/update', autenticacion_1.verificaToken, function (req, res) {
         idSignal: req.body.idSignal,
         codCiudad: req.body.codCiudad
     };
-    console.log("El usuario que viene : ", user.nombre, " ", user.email);
-    modelos.Usuarios.update(user, { where: { id: req.usuario.idUsuario } }, { new: true }).then(function (userDB) {
+    console.log("El usuario que viene : ", user);
+    modelos.Usuarios.update(user, { where: { idUsuario: req.usuario.idUsuario } }, { new: true }).then(function (userDB) {
         console.log("El usuario de DB : ", userDB);
         if (!userDB) {
             return res.json({
@@ -165,6 +165,42 @@ userRoutes.post('/update', autenticacion_1.verificaToken, function (req, res) {
                 telefono: userDB.telefono,
                 foto: userDB.foto,
                 idSignal: req.body.idSignal,
+                codCiudad: req.body.codCiudad
+            });
+            res.json({
+                ok: true,
+                token: tokenUser
+            });
+        }
+    })
+        .catch(function (err) {
+        console.log(err);
+        throw err;
+    });
+});
+// Actualizar usuario
+userRoutes.post('/updateciudad', autenticacion_1.verificaToken, function (req, res) {
+    var user = {
+        codCiudad: req.body.codCiudad
+    };
+    console.log("El usuario que viene : ", user);
+    modelos.Usuarios.update(user, { where: { idUsuario: req.usuario.idUsuario } }, { new: true }).then(function (userDB) {
+        console.log("El usuario de DB : ", userDB);
+        if (!userDB) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existe un usuario con ese ID'
+            });
+        }
+        else {
+            console.log('Usuario encontrado. Seguimos procesando');
+            var tokenUser = token_1.default.getJwtToken({
+                idUsuario: req.usuario.idUsuario,
+                nombre: req.usuario.nombre,
+                cedula: req.usuario.cedula,
+                email: req.usuario.email,
+                telefono: req.usuario.telefono,
+                foto: req.usuario.foto,
                 codCiudad: req.body.codCiudad
             });
             res.json({

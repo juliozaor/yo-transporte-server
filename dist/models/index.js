@@ -13,18 +13,17 @@ var connection = new sequelize_1.Sequelize('heroku_9bc16b20cb2808f', 'b658891ac5
         idle: 10000
     }
 });
-/* const connection = new Sequelize('db_yo_transporte1', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql',
+/*const connection = new Sequelize('db_yo_transporte1', 'root', '', {
+   host: 'localhost',
+   dialect: 'mysql',
 
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    }
-  
-  });
- */
+   pool: {
+     max: 5,
+     min: 0,
+     idle: 10000
+   }
+ 
+ });*/
 /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {
   host: 'localhost',
   dialect: 'mysql',

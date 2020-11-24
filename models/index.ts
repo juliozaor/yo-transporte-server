@@ -19,7 +19,7 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
 
 });
 
-/* const connection = new Sequelize('db_yo_transporte1', 'root', '', {
+ /*const connection = new Sequelize('db_yo_transporte1', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
 
@@ -29,8 +29,8 @@ const connection = new Sequelize('heroku_9bc16b20cb2808f', 'b658891ac52cb3', '9e
       idle: 10000
     }
   
-  });
- */
+  });*/
+ 
   
   /* const connection = new Sequelize('db_yotransporto', 'usr_yotransporto', 'Nbv9!uo1k8*-', {
     host: 'localhost',

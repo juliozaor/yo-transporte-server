@@ -140,9 +140,9 @@ userRoutes.post('/update', verificaToken, (req: any, res: Response) => {
         codCiudad: req.body.codCiudad
     }
 
-    console.log("El usuario que viene : ", user.nombre, " ", user.email);
+    console.log("El usuario que viene : ", user);
 
-    modelos.Usuarios.update(user, {where:{id: req.usuario.idUsuario }}, {new: true}).then((userDB) =>{
+    modelos.Usuarios.update(user, {where:{idUsuario: req.usuario.idUsuario }}, {new: true}).then((userDB) =>{
 
         console.log("El usuario de DB : ", userDB);
 
@@ -180,6 +180,52 @@ throw err;
 
 });
 
+
+// Actualizar usuario
+userRoutes.post('/updateciudad', verificaToken, (req: any, res: Response) => {
+
+    const user = {        
+        codCiudad: req.body.codCiudad
+    }
+
+    console.log("El usuario que viene : ", user);
+
+    modelos.Usuarios.update(user, {where:{idUsuario: req.usuario.idUsuario }}, {new: true}).then((userDB) =>{
+
+        console.log("El usuario de DB : ", userDB);
+
+
+    if (!userDB) {
+        return res.json({
+            ok: false,
+            mensaje: 'No existe un usuario con ese ID'
+        });
+    } else {
+    console.log('Usuario encontrado. Seguimos procesando');    
+
+            const tokenUser = Token.getJwtToken({
+                idUsuario: req.usuario.idUsuario,
+                nombre: req.usuario.nombre,
+                cedula: req.usuario.cedula,
+                email: req.usuario.email,
+                telefono: req.usuario.telefono,
+                foto: req.usuario.foto,
+                codCiudad: req.body.codCiudad
+            });
+            res.json({
+            ok: true,
+            token: tokenUser
+        });
+       
+    }
+
+})
+.catch(function(err){
+console.log(err);
+throw err;
+});   
+
+});
 
 
 userRoutes.get('/', [verificaToken], (req:any, res:Response) => {
