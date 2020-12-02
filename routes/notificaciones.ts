@@ -57,6 +57,8 @@ notificacionesRoutes.post('/push', (req: any, res: Response) => {
     
   };
 
+  console.log('destino: ',destino,'id del destino: ',idDestino, 'ciudad: ', ciudad);
+
   push.sendPush( post, destino, idDestino, ciudad );
   
   res.json(post);

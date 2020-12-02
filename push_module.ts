@@ -114,7 +114,7 @@ module.exports.sendPush = ( post: any, destino: any, idDestino = "", ciudad: any
         });
 
 
-        }else{
+        }else if(destino === 'u'){
 
             modelos.Conductores.findAll({ where: {esInterurbano: '0'}}).then(function(conductorDB:any) {
 
@@ -126,7 +126,8 @@ module.exports.sendPush = ( post: any, destino: any, idDestino = "", ciudad: any
                     modelos.Usuarios.findOne( {
                         attributes: ['codCiudad' ], 
                         where: {idUsuario: conductor.idConductor}}).then(function(usuarioDB:any) { 
-
+                            
+                        ciudadDestino = usuarioDB.codCiudad;
 
                     if( suscripcion.usuario === conductor.idConductor  && ciudadDestino == ciudad){
 

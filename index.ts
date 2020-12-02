@@ -1,7 +1,6 @@
 import Server from './clasess/server';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
-
 import cors from 'cors';
 
 
@@ -14,10 +13,21 @@ import chatRoutes from './routes/chat';
 import notificacionesRoutes from './routes/notificaciones';
 //import conductorVehiculoRoutes from './routes/conductor-vehiculo';
 //import ofertaConductorRoutes from './routes/oferta-conductor';
+//const multipart = require('connect-multiparty');
 
 const Sequelize = require('sequelize');
 
 const server = new Server();
+
+/* const multipartmiddleware = multipart({
+    uploadDir: './uploads'
+});
+ */
+
+
+
+
+
 
 // body parser
 server.app.use(bodyParser.urlencoded({ extended: true}));
@@ -26,6 +36,8 @@ server.app.use(bodyParser.json());
 
 //FileUpload
 server.app.use( fileUpload({ useTempFiles: true }) );
+
+
 
 
 // Configurar CORS 
@@ -43,6 +55,8 @@ server.app.use('/chat', chatRoutes);
 server.app.use('/notificacion', notificacionesRoutes);
 //server.app.use('/conductor-vehiculo', conductorVehiculoRoutes);
 //server.app.use('/oferta-conductor', ofertaConductorRoutes);
+
+
 
 server.app.get('/',(req, res) => {
     res.send('Bienvenido');

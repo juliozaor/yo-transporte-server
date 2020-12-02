@@ -3,9 +3,34 @@ import { verificaToken } from '../middlewares/autenticacion';
 import { FileUpload } from '../interfaces/file-upload';
 import FileSystem from '../clasess/file-system';
 
+
 const vehiculoRoutes = Router();
 const modelos = require('../models');
 const fileSystem = new FileSystem();
+
+
+
+/* const multipart = require('connect-multiparty');
+
+const multipartmiddleware = multipart({
+    uploadDir: './uploads'
+}); */
+
+
+const path = require('path');
+const multer = require('multer');
+
+let storage = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, './uploads')
+    
+},
+filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+}
+});
+
+const upload = multer({storage});
 
 
 
@@ -96,7 +121,7 @@ vehiculoRoutes.post('/create', [verificaToken], async(req: any, res: Response) =
 
 
 
-//servicio para subir archivos
+/* //servicio para subir archivos
 vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Response) => {
 
     const idUsuario = req.usuario.idUsuario;
@@ -140,8 +165,22 @@ vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Res
     });
 
 
-});
+}); */
 
+
+/*  vehiculoRoutes.post('/upload', multipartmiddleware, (req: any, res: Response)=>{
+    res.json({
+        ok: true,
+         respuesta: res
+    });
+});  */
+
+vehiculoRoutes.post('/upload', upload.single('file'), (req: any, res: Response)=>{
+    res.json({
+        ok: true,
+         respuesta: req
+    });
+});
 
 
 vehiculoRoutes.get('/fotos/:userid/:img', (req: any, res: Response) => {

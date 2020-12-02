@@ -15,8 +15,13 @@ var chat_1 = __importDefault(require("./routes/chat"));
 var notificaciones_1 = __importDefault(require("./routes/notificaciones"));
 //import conductorVehiculoRoutes from './routes/conductor-vehiculo';
 //import ofertaConductorRoutes from './routes/oferta-conductor';
+//const multipart = require('connect-multiparty');
 var Sequelize = require('sequelize');
 var server = new server_1.default();
+/* const multipartmiddleware = multipart({
+    uploadDir: './uploads'
+});
+ */
 // body parser
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());

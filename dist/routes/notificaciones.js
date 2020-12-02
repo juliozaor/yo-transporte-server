@@ -36,6 +36,7 @@ notificacionesRoutes.post('/push', function (req, res) {
             }
         }
     };
+    console.log('destino: ', destino, 'id del destino: ', idDestino, 'ciudad: ', ciudad);
     push.sendPush(post, destino, idDestino, ciudad);
     res.json(post);
 });

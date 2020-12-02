@@ -58,13 +58,14 @@ module.exports.sendPush = function (post, destino, idDestino, ciudad) {
                     });
                 });
             }
-            else {
+            else if (destino === 'u') {
                 modelos.Conductores.findAll({ where: { esInterurbano: '0' } }).then(function (conductorDB) {
                     conductorDB.forEach(function (conductor) {
                         modelos.Usuarios.findOne({
                             attributes: ['codCiudad'],
                             where: { idUsuario: conductor.idConductor }
                         }).then(function (usuarioDB) {
+                            ciudadDestino = usuarioDB.codCiudad;
                             if (suscripcion.usuario === conductor.idConductor && ciudadDestino == ciudad) {
                                 var pushProm = webpush.sendNotification(suscripcion, JSON.stringify(post))
                                     .then(console.log('Notificación enviada'))
