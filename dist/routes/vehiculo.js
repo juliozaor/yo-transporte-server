@@ -42,6 +42,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var autenticacion_1 = require("../middlewares/autenticacion");
 var file_system_1 = __importDefault(require("../clasess/file-system"));
+/* const path = require('path');
+const multer = require('multer');
+
+let storage = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, './uploads')
+    
+},
+filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+}
+});
+
+const upload = multer({storage}); */
 var vehiculoRoutes = express_1.Router();
 var modelos = require('../models');
 var fileSystem = new file_system_1.default();
@@ -50,17 +64,6 @@ var fileSystem = new file_system_1.default();
 const multipartmiddleware = multipart({
     uploadDir: './uploads'
 }); */
-var path = require('path');
-var multer = require('multer');
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
-var upload = multer({ storage: storage });
 vehiculoRoutes.post('/create', [autenticacion_1.verificaToken], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var body, fotoImg, i;
     return __generator(this, function (_a) {
@@ -130,63 +133,60 @@ vehiculoRoutes.post('/create', [autenticacion_1.verificaToken], function (req, r
         }
     });
 }); });
-/* //servicio para subir archivos
-vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Response) => {
-
-    const idUsuario = req.usuario.idUsuario;
-
-    if( !req.files) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'No se subió ningun archivo'
-        });
-    }
-
-    const file: FileUpload = req.files.imagen;
-    //const file: FileUpload[] = [req.files.foto1Licencia, req.files.foto2Licencia];
-    //const nombres: string[] = ["foto1Licencia","foto2Licencia"]
-
-    console.log(req.files.imagen);
-
-    if( !file ) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'No se subió ningun archivo - image'
-        });
-    }
-
-    if ( !file.mimetype.includes('image')) {
-        return res.status(400).json({
-            ok: false,
-            mensaje: 'Lo que subió no es una imagen'
-        });
-    }
-
-    //console.log("el id del usuario es :", req.usuario.idUsuario), idUsuario;
-
-    const nombreFoto =  req.params.nombre;
-    
-    await fileSystem.guardarImagenTemporalV(file, String(req.usuario.idUsuario), nombreFoto);
-    
-    res.json({
-        ok: true,
-        file: file.mimetype
+//servicio para subir archivos
+vehiculoRoutes.post('/upload/:nombre', [autenticacion_1.verificaToken], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var idUsuario, file, nombreFoto;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                idUsuario = req.usuario.idUsuario;
+                console.log('archivo', req.files);
+                if (!req.files) {
+                    return [2 /*return*/, res.status(400).json({
+                            ok: false,
+                            mensaje: 'No se subió ningun archivo'
+                        })];
+                }
+                file = req.files.image;
+                //const file: FileUpload[] = [req.files.foto1Licencia, req.files.foto2Licencia];
+                //const nombres: string[] = ["foto1Licencia","foto2Licencia"]
+                console.log(file);
+                if (!file) {
+                    return [2 /*return*/, res.status(400).json({
+                            ok: false,
+                            mensaje: 'No se subió ningun archivo - image'
+                        })];
+                }
+                if (!file.mimetype.includes('image')) {
+                    return [2 /*return*/, res.status(400).json({
+                            ok: false,
+                            mensaje: 'Lo que subió no es una imagen'
+                        })];
+                }
+                nombreFoto = req.params.nombre;
+                return [4 /*yield*/, fileSystem.guardarImagenTemporalV(file, String(req.usuario.idUsuario), nombreFoto)];
+            case 1:
+                _a.sent();
+                res.json({
+                    ok: true,
+                    file: file.mimetype
+                });
+                return [2 /*return*/];
+        }
     });
-
-
-}); */
+}); });
 /*  vehiculoRoutes.post('/upload', multipartmiddleware, (req: any, res: Response)=>{
     res.json({
         ok: true,
          respuesta: res
     });
 });  */
-vehiculoRoutes.post('/upload', upload.single('file'), function (req, res) {
+/* vehiculoRoutes.post('/upload', upload.single('file'), (req: any, res: Response)=>{
     res.json({
         ok: true,
-        respuesta: req
+         respuesta: req
     });
-});
+}); */
 vehiculoRoutes.get('/fotos/:userid/:img', function (req, res) {
     var userId = req.params.userid;
     var img = req.params.img;

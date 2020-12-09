@@ -2,22 +2,7 @@ import { Router, Request, Response } from "express";
 import { verificaToken } from '../middlewares/autenticacion';
 import { FileUpload } from '../interfaces/file-upload';
 import FileSystem from '../clasess/file-system';
-
-
-const vehiculoRoutes = Router();
-const modelos = require('../models');
-const fileSystem = new FileSystem();
-
-
-
-/* const multipart = require('connect-multiparty');
-
-const multipartmiddleware = multipart({
-    uploadDir: './uploads'
-}); */
-
-
-const path = require('path');
+/* const path = require('path');
 const multer = require('multer');
 
 let storage = multer.diskStorage({
@@ -30,7 +15,19 @@ filename: (req, file, cb) => {
 }
 });
 
-const upload = multer({storage});
+const upload = multer({storage}); */
+
+const vehiculoRoutes = Router();
+const modelos = require('../models');
+const fileSystem = new FileSystem();
+
+
+
+/* const multipart = require('connect-multiparty');
+
+const multipartmiddleware = multipart({
+    uploadDir: './uploads'
+}); */
 
 
 
@@ -121,10 +118,12 @@ vehiculoRoutes.post('/create', [verificaToken], async(req: any, res: Response) =
 
 
 
-/* //servicio para subir archivos
+//servicio para subir archivos
 vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Response) => {
 
     const idUsuario = req.usuario.idUsuario;
+
+    console.log('archivo', req.files);
 
     if( !req.files) {
         return res.status(400).json({
@@ -133,11 +132,11 @@ vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Res
         });
     }
 
-    const file: FileUpload = req.files.imagen;
+    const file: FileUpload = req.files.image;
     //const file: FileUpload[] = [req.files.foto1Licencia, req.files.foto2Licencia];
     //const nombres: string[] = ["foto1Licencia","foto2Licencia"]
 
-    console.log(req.files.imagen);
+    console.log(file);
 
     if( !file ) {
         return res.status(400).json({
@@ -165,7 +164,7 @@ vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Res
     });
 
 
-}); */
+});
 
 
 /*  vehiculoRoutes.post('/upload', multipartmiddleware, (req: any, res: Response)=>{
@@ -175,12 +174,12 @@ vehiculoRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Res
     });
 });  */
 
-vehiculoRoutes.post('/upload', upload.single('file'), (req: any, res: Response)=>{
+/* vehiculoRoutes.post('/upload', upload.single('file'), (req: any, res: Response)=>{
     res.json({
         ok: true,
          respuesta: req
     });
-});
+}); */
 
 
 vehiculoRoutes.get('/fotos/:userid/:img', (req: any, res: Response) => {

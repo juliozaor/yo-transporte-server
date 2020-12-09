@@ -53,7 +53,7 @@ propietarioRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: 
         });
     }
 
-    const file: FileUpload = req.files.imagen;
+    const file: FileUpload = req.files.image;
     //const file: FileUpload[] = [req.files.foto1Licencia, req.files.foto2Licencia];
     //const nombres: string[] = ["foto1Licencia","foto2Licencia"]
 

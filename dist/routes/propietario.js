@@ -86,7 +86,7 @@ propietarioRoutes.post('/upload/:nombre', [autenticacion_1.verificaToken], funct
                             mensaje: 'No se subió ningun archivo'
                         })];
                 }
-                file = req.files.imagen;
+                file = req.files.image;
                 //const file: FileUpload[] = [req.files.foto1Licencia, req.files.foto2Licencia];
                 //const nombres: string[] = ["foto1Licencia","foto2Licencia"]
                 if (!file) {
