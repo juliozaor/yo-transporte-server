@@ -165,7 +165,7 @@ conductorRoutes.get('/buscar/:idUsuario', (req: Request, res: Response ) => {
 
 //servicio para subir archivos
 conductorRoutes.post('/upload/:nombre', [verificaToken], async(req: any, res: Response) => {
-
+ 
     if( !req.files) {
         return res.status(400).json({
             ok: false,
